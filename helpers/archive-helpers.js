@@ -25,15 +25,16 @@ exports.initialize = function(pathsObj){
 
 
 
-exports.checkArchive = function(res, data, callback) {
-  data = 'www.google.com'; // Test Data
-  callback(res, data);
+exports.checkArchive = function(res, url, callback) {
+  url = 'www.google.com'; // Test Data
+
+  callback(res, url);
 };
 
-var readListOfUrls = function(callback, arg){
+exports.readListOfUrls = function(callback, arg){
   fs.readFile(paths.list, function (err, list) {
     if (err) throw err;
-
+    list = list.split('\n');
     // parse list and load in memory
 
     callback.call(list, arg);
