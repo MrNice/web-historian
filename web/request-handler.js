@@ -4,22 +4,27 @@ var helpers = require('./http-helpers');   // changes from ../helpers/http-helpe
 // require more modules/folders here!
 
 exports.serveHome = function (req, res) {
-  // Add in a switch
   var assetName = 'index.html';
+
   if (req.method === "POST") {
-    helpers.receiveData(req, res, function (data) {
-      var asset = {
-        name: archive.checkArchive(data),
-        type: 'archivedSites'
-      };
-      helpers.serveAssets(req, res, asset);
+    helpers.receiveData(req, res, function (res, data) {
+
+      archive.checkArchive(res, data, function(res, data) {
+        console.log('CheckArchive Callback data: ', data);
+        helpers.serveAssets(res, { type: 'archivedSites', name: data});
+      });
+
     });
   } else {
-    helpers.serveAssets(req, res, { name: assetName, type: "siteAssets" });
+    helpers.serveAssets(res, { name: assetName, type: "siteAssets" });
   }
 };
 
 exports.serveStyles = function (req, res) {
-  // todo: add deep logging functionality 
-  helpers.serveAssets(req, res, { name: 'styles.css', type: 'siteAssets' });
+  helpers.serveAssets(res, { name: 'styles.css', type: 'siteAssets' });
 };
+
+// fred lecture request handler logic:
+/*
+  1. 
+*/

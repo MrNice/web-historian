@@ -1,15 +1,16 @@
+// var urllib = require('url');
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
-
+var paths;
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
  * Consider using the `paths` object below to store frequently used file paths. This way,
  * if you move any files, you'll only need to change your code in one place! Feel free to
  * customize it in any way you wish.
  */
-
-exports.paths = {
+ 
+exports.paths = paths = {
   'siteAssets' : path.join(__dirname, '../web/public'),     // index.html, loading
   'archivedSites' : path.join(__dirname, '../archives/sites'), // htmls
   'list' : path.join(__dirname, '../archives/sites.txt')       // list
@@ -22,47 +23,37 @@ exports.initialize = function(pathsObj){
   });
 };
 
-exports.checkArchive = function() {
-  return 'www.google.com';
-};
-// The following function names are provided to you to suggest how you might
-// modularize your code. Keep it clean!
 
-// Only workers should use these functions
-readListOfUrls = function(){
+
+exports.checkArchive = function(res, data, callback) {
+  data = 'www.google.com'; // Test Data
+  callback(res, data);
 };
 
-addUrlToList = function(){
+var readListOfUrls = function(callback, arg){
+  fs.readFile(paths.list, function (err, list) {
+    if (err) throw err;
+
+    // parse list and load in memory
+
+    callback.call(list, arg);
+  });
 };
 
-downloadUrls = function(){
+exports.addUrlToList = function(list, callback){
+  callback();
 };
 
-isURLArchived = function(){
+exports.downloadUrls = function(target, callback){
+  callback();
+};
+
+exports.isURLArchived = function(archive, target, callback){
   return true;
 };
 
-isUrlInList = function(){
+exports.isUrlInList = function(list, target, callback){
   // read file
   // if google is in file
   return true;
 };
-
-// exports.readListOfUrls = function(){
-// };
-
-// exports.addUrlToList = function(){
-// };
-
-// exports.downloadUrls = function(){
-// };
-
-// exports.isURLArchived = function(){
-//   return true;
-// };
-
-// exports.isUrlInList = function(){
-//   // read file
-//   // if google is in file
-//   return true;
-// };

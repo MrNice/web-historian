@@ -17,7 +17,6 @@ var router = function (req, res) {
   // router only takes care of the url relative path maintainance
   // router ignores status and http methods
   var parsedURL = url.parse(req.url);
-  console.log(parsedURL);
 
   var route = routes[parsedURL.pathname]; // GREG INSERTED added .pathname
   if(route) {
