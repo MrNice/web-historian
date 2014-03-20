@@ -22,20 +22,47 @@ exports.initialize = function(pathsObj){
   });
 };
 
+exports.checkArchive = function() {
+  return 'www.google.com';
+};
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function(){
+// Only workers should use these functions
+readListOfUrls = function(){
 };
 
-exports.isUrlInList = function(){
+addUrlToList = function(){
 };
 
-exports.addUrlToList = function(){
+downloadUrls = function(){
 };
 
-exports.isURLArchived = function(){
+isURLArchived = function(){
+  return true;
 };
 
-exports.downloadUrls = function(){
+isUrlInList = function(){
+  // read file
+  // if google is in file
+  return true;
 };
+
+// exports.readListOfUrls = function(){
+// };
+
+// exports.addUrlToList = function(){
+// };
+
+// exports.downloadUrls = function(){
+// };
+
+// exports.isURLArchived = function(){
+//   return true;
+// };
+
+// exports.isUrlInList = function(){
+//   // read file
+//   // if google is in file
+//   return true;
+// };

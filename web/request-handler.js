@@ -4,13 +4,22 @@ var helpers = require('./http-helpers');   // changes from ../helpers/http-helpe
 // require more modules/folders here!
 
 exports.serveHome = function (req, res) {
-  var index = path.join(archive.paths.siteAssets, 'index.html');
-  // todo: add deep logging functionality 
-  helpers.serveAssets(req, res, index);
+  // Add in a switch
+  var assetName = 'index.html';
+  if (req.method === "POST") {
+    helpers.receiveData(req, res, function (data) {
+      var asset = {
+        name: archive.checkArchive(data),
+        type: 'archivedSites'
+      };
+      helpers.serveAssets(req, res, asset);
+    });
+  } else {
+    helpers.serveAssets(req, res, { name: assetName, type: "siteAssets" });
+  }
 };
 
 exports.serveStyles = function (req, res) {
-  var styles = path.join(archive.paths.siteAssets, 'styles.css');
   // todo: add deep logging functionality 
-  helpers.serveAssets(req, res, styles);
+  helpers.serveAssets(req, res, { name: 'styles.css', type: 'siteAssets' });
 };
