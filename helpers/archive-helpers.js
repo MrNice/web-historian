@@ -2,6 +2,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var http = require('http-request');
 
 var paths;
 /*
@@ -95,7 +96,20 @@ exports.addUrlToList = function(url){
   });
 };
 
-exports.downloadUrls = function(target){
-  console.log('Appending to file');
+exports.downloadUrl = function(target){
+
+  http.get({
+    url: 'http://' + target,
+    progress: function (current, total) {
+      console.log('downloaded %d bytes from %d', current, total);
+    }
+  }, path.join(exports.paths.archivedSites, target), function (err, res) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    
+    console.log(res.code, res.headers, res.file);
+  });
 };
 

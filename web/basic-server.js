@@ -2,6 +2,7 @@ var http = require("http");
 var url = require("url");
 var handler = require("./request-handler");
 var httpHelpers = require('./http-helpers.js');
+var cron = require('../workers/htmlfetcher.js');
 
 var port = 8080;
 var ip = "127.0.0.1";
