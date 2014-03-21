@@ -5,13 +5,21 @@ var helpers = require('./http-helpers');   // changes from ../helpers/http-helpe
 
 exports.serveHome = function (req, res) {
   var assetName = 'index.html';
+  var assetData = { name: assetName, type: 'siteAssets'};
 
   if (req.method === "POST") {
     helpers.receiveData(req, res, function (res, data) {
 
       archive.checkArchive(res, data, function(res, data) {
+        assetData.name = data;
+        
+        if(data !== 'loading.html') {
+          assetData.type = 'archivedSites';
+        }
+
+        helpers.serveAssets(res, assetData);
+
         console.log('CheckArchive Callback data: ', data);
-        helpers.serveAssets(res, { type: 'archivedSites', name: data});
       });
 
     });

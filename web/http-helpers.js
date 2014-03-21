@@ -34,7 +34,7 @@ exports.receiveData = function(request, response, callback) {
   });
   request.on('end', function() {
     console.log("receiveData: ", data.substr(4));
-    callback(response, data);
+    callback(response, data.substr(4));
   });
 };
 

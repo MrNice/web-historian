@@ -43,8 +43,10 @@ exports.checkArchive = function(res, url, callback) {
     exports.isURLArchived(url, function s (url) {
       console.log('is archived, serve page');
   //      else                 -> serve loading
+      callback(res, url);
     } , function f (url){
       console.log('is not archived, serve loading');
+      callback(res, 'loading.html');
     } );
   // 2. if inUrlList === false
   }, function f (url) {
@@ -56,17 +58,16 @@ exports.checkArchive = function(res, url, callback) {
     console.log('serve loading page');
 
   });
-
-  callback(res, url);
 };
 
 exports.readListOfUrls = function(callback){
-  fs.readFile(paths.list, function (err, list) {
+  fs.readFile(paths.list, {encoding: 'utf8'}, function (err, list) {
     if (err) { throw err; }
     console.log(list);
+    list = list.split('\n');
     // parse list and load in memory
 
-    callback(list);
+    callback(list, function(list) {console.log(list);});
   });
 };
 
