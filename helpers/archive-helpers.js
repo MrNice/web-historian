@@ -37,26 +37,20 @@ exports.initialize = function(pathsObj){
 
 exports.checkArchive = function(res, url, callback) {
   url = 'www.google.com'; // Test Data
-  // 1. if inUrlList === true
+
   exports.isUrlInList(url, function s (url) {
-  //      if archived === true -> serve page
     exports.isURLArchived(url, function s (url) {
       console.log('is archived, serve page');
-  //      else                 -> serve loading
       callback(res, url);
     } , function f (url){
       console.log('is not archived, serve loading');
+      console.log(callback);
       callback(res, 'loading.html');
     } );
-  // 2. if inUrlList === false
   }, function f (url) {
-  //      1. write to list
-    console.log('write to list');
+    console.log('write to list: ' + url);
     exports.addUrlToList(url);
-
-  //      2. serve loading page
     console.log('serve loading page');
-
   });
 };
 
@@ -67,16 +61,21 @@ exports.readListOfUrls = function(callback){
     list = list.split('\n');
     // parse list and load in memory
 
-    callback(list, function(list) {console.log(list);});
+    callback(list);
   });
 };
 
-exports.addUrlToList = function(list, callback){
-  callback();
+exports.addUrlToList = function(url){
+  url = url + '\n';
+  var filename = exports.paths.list;
+  console.log('Adding this to list!');
+  fs.appendFile(filename, url, {encoding: 'utf8'}, function(err) {
+    if (err) throw err;
+  });
 };
 
-exports.downloadUrls = function(target, callback){
-  callback();
+exports.downloadUrls = function(target){
+  console.log('Appending to file');
 };
 
 exports.isURLArchived = function(target, successCb, failureCb){
@@ -94,6 +93,7 @@ exports.isURLArchived = function(target, successCb, failureCb){
 
 exports.isUrlInList = function(target, successCb, failureCb){
   exports.readListOfUrls(function (data, target) {
+    console.log('ReadlistofURLs target: ' + target);
     if (data.indexOf(target) > -1) {
        successCb(target);
     } else {
