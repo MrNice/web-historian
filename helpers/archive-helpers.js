@@ -49,6 +49,7 @@ exports.checkArchive = function(res, url, callback) {
     console.log('write to list: ' + url);
     exports.addUrlToList(url);
     console.log('serve loading page');
+    callback(res, 'loading.html');
   });
 };
 

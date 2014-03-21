@@ -15,8 +15,8 @@ new CronJob('*/4 * * * * * *', function(){
     };
     var callback = function(){};
 
-    async.each(list, iterator, callback);
     //Async each
+    async.each(list, iterator, callback);
   });
 }, null, true, "America/Los_Angeles");
 // eventually, you'll have some code here that uses the code in `archive-helpers.js`
