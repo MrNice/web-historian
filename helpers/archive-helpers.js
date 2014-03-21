@@ -2,6 +2,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+
 var paths;
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -33,11 +34,7 @@ exports.initialize = function(pathsObj){
        1. write to list
        2. serve loading page
 */
-
-
 exports.checkArchive = function(res, url, callback) {
-  url = 'www.google.com'; // Test Data
-
   exports.isUrlInList(url, function s (url) {
     exports.isURLArchived(url, function s (url) {
       console.log('is archived, serve page');
@@ -54,28 +51,26 @@ exports.checkArchive = function(res, url, callback) {
   });
 };
 
+exports.isUrlInList = function(target, successCb, failureCb){
+  exports.readListOfUrls(function (data) {
+    console.log('ReadlistofURLs target: ' + target);
+    if (data.indexOf(target) > -1) {
+       successCb(target);
+    } else {
+      failureCb(target);
+    }
+  });
+  return true;
+};
+
 exports.readListOfUrls = function(callback){
   fs.readFile(paths.list, {encoding: 'utf8'}, function (err, list) {
     if (err) { throw err; }
     console.log(list);
     list = list.split('\n');
-    // parse list and load in memory
 
     callback(list);
   });
-};
-
-exports.addUrlToList = function(url){
-  url = url + '\n';
-  var filename = exports.paths.list;
-  console.log('Adding this to list!');
-  fs.appendFile(filename, url, {encoding: 'utf8'}, function(err) {
-    if (err) throw err;
-  });
-};
-
-exports.downloadUrls = function(target){
-  console.log('Appending to file');
 };
 
 exports.isURLArchived = function(target, successCb, failureCb){
@@ -91,14 +86,16 @@ exports.isURLArchived = function(target, successCb, failureCb){
   return true;
 };
 
-exports.isUrlInList = function(target, successCb, failureCb){
-  exports.readListOfUrls(function (data, target) {
-    console.log('ReadlistofURLs target: ' + target);
-    if (data.indexOf(target) > -1) {
-       successCb(target);
-    } else {
-      failureCb(target);
-    }
+exports.addUrlToList = function(url){
+  url = url + '\n';
+  var filename = exports.paths.list;
+  console.log('Adding this to list!');
+  fs.appendFile(filename, url, {encoding: 'utf8'}, function(err) {
+    if (err) throw err;
   });
-  return true;
 };
+
+exports.downloadUrls = function(target){
+  console.log('Appending to file');
+};
+

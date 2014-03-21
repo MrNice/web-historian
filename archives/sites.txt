@@ -1,7 +1,4 @@
 www.google.com
 www.amazon.com
 www.yahoo.com
-undefined
-undefined
-undefined
-undefined
+www.cnn.com
